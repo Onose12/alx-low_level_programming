@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 /**
- * *main -Prints numbers betweeb 0 to 9 with commas and spaces.
+ * *main - Prints numbers betwen 0 to 9 with commas and spaces.
  *
  * Return: Always 0 (Success)
  */
@@ -12,7 +12,7 @@ int main(void)
 	for (i = 48; i < 58; i++)
 	{
 		putchar(i);
-		ifi(i != 57)
+		if(i != 57)
 		{
 			putchar(',');
 			putchar(' ');
