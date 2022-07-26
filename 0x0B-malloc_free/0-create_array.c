@@ -1,13 +1,12 @@
 #include "main.h"
 #include <stdlib.h>
 /**
- * create_array -create an array of chars.
- * @size: size of the array.
- * @c: storaged char
+ * create_array - creates an array of chars.
+ * @size: size of the array.@c: storaged char
  *
  * Return: pointer of an array of chars
  */
-char *create_arrat(unsigned int size, char c)
+char *create_array(unsigned int size, char c)
 {
 	char *cr;
 	unsigned int i;
@@ -19,7 +18,6 @@ char *create_arrat(unsigned int size, char c)
 
 	if (cr == NULL)
 		return (NULL);
-
 
 	for (i = 0; i < size; i++)
 		cr[i] = c;
