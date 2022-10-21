@@ -1,65 +1,74 @@
 #include "hash_tables.h"
 
 /**
- * add_n_hash - adds a node at the beginning of a hash at a given index
+ * new_node - allocates a new node with checking
+ * @key: the string key
+ * @value: the string value
  *
- * @head: head of the hash linked list
- * @key: key of the hash
- * @value: value to store
- * Return: head of the hash
+ * Return: the node or NULL
  */
-hash_node_t *add_n_hash(hash_node_t **head, const char *key, const char *value)
+hash_node_t *new_node(const char *key, const char *value)
 {
-	hash_node_t *tmp;
+	hash_node_t *node;
 
-	tmp = *head;
+	node = calloc(1, sizeof(hash_node_t));
+	if (!node)
+		return (0);
 
-	while (tmp != NULL)
+	node->key = strdup(key);
+	if (!node->key)
 	{
-		if (strcmp(key, tmp->key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = strdup(value);
-			return (*head);
-		}
-		tmp = tmp->next;
+		free(node);
+		return (0);
+	}
+	node->value = strdup(value);
+	if (!node->value)
+	{
+		free(node->key);
+		free(node);
+		return (0);
 	}
 
-	tmp = malloc(sizeof(hash_node_t));
-
-	if (tmp == NULL)
-		return (NULL);
-
-	tmp->key = strdup(key);
-	tmp->value = strdup(value);
-	tmp->next = *head;
-	*head = tmp;
-
-	return (*head);
+	return (node);
 }
 
+
 /**
- * hash_table_set - adds a hash (key, value) to a given hash table
+ * hash_table_set - adds an element to a hash table
+ * @ht: pointer to hash table
+ * @key: the string key
+ * @value: the string value
  *
- * @ht: pointer to the hash table
- * @key: key of the hash
- * @value: value to store
- * Return: 1 if successes, 0 if fails
+ * Return: 1 on success, 0 otherwise
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	unsigned long int k_index;
+	hash_node_t *node = NULL, *head;
+	unsigned long int index;
 
-	if (ht == NULL)
+	if (!ht || !key || !*key || !value)
 		return (0);
 
-	if (key == NULL || *key == '\0')
+	index = key_index((const unsigned char *)key, ht->size);
+	head = ht->array[index];
+	while (head)
+	{
+		if (!strcmp(key, head->key))
+		{
+			char *_value = strdup(value);
+
+			if (!_value)
+				return (0);
+			free(head->value);
+			head->value = _value;
+			return (1);
+		}
+		head = head->next;
+	}
+	node = new_node(key, value);
+	if (!node)
 		return (0);
-
-	k_index = key_index((unsigned char *)key, ht->size);
-
-	if (add_n_hash(&(ht->array[k_index]), key, value) == NULL)
-		return (0);
-
+	node->next = ht->array[index];
+	ht->array[index] = node;
 	return (1);
 }

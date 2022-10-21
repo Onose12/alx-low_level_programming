@@ -1,1 +1,1 @@
-This is an Alx project on implementing Hash Tables with C language.
+This project is about how to implement Hash Tables with C language.
