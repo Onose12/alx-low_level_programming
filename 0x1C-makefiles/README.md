@@ -1,5 +1,5 @@
 ## Description
-An alx project about makefiles.
+An alx C project about makefiles.
 
 ## Tasks
 * [0-Makefile](0-Makefile)
