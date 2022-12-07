@@ -1,5 +1,3 @@
-# 0x1C Makefile
-
 ## Description
 An alx project about makefiles.
 
